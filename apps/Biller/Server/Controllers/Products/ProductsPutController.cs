@@ -2,7 +2,7 @@
 using Billing.Products.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Server.Controllers.Products.Requests;
+using Server.Controllers.Products.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;

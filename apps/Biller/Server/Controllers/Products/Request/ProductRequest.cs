@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Server.Controllers.Products.Requests
+namespace Server.Controllers.Products.Request
 {
     public class ProductRequest
     {
