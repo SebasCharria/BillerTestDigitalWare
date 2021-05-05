@@ -31,18 +31,10 @@ namespace Billing.Invoices.Infrastructure.Persistence.Configurations
             builder.OwnsOne(i => i.TotalReceived);
             builder.OwnsOne(i => i.TotalPrice);
 
-            builder.OwnsMany(i => i.Items, it =>
-            {
-                it.ToTable("InvoiceItems", BillingDbContext.DEFAULT_SCHEMA);
-                it.OwnsOne(i => i.Quantity);
-                it.OwnsOne(i => i.TotalPrice);
-                it.OwnsOne(i => i.UnitPrice);
-                it.OwnsOne(i => i.UnitTax);
-                
-                it.HasOne(i => i.Product)
-                    .WithMany()
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
+            builder.HasMany(i => i.Items)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

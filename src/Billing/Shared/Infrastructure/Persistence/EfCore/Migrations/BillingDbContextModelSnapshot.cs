@@ -61,6 +61,34 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                     b.ToTable("Invoices","Billing");
                 });
 
+            modelBuilder.Entity("Billing.Invoices.Domain.InvoiceItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TaxDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InvoiceItems","Billing");
+                });
+
             modelBuilder.Entity("Billing.Products.Domain.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -85,7 +113,7 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                     b.ToTable("Products","Billing");
                 });
 
-            modelBuilder.Entity("Billing.Products.Domain.ValueObjects.StockQuantityHistory", b =>
+            modelBuilder.Entity("Billing.Products.Domain.StockQuantityHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -189,137 +217,6 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                                 });
                         });
 
-                    b.OwnsMany("Billing.Invoices.Domain.ValueObjects.InvoiceItem", "Items", b1 =>
-                        {
-                            b1.Property<int>("InvoiceId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("Name")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<int>("ProductId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("TaxDescription")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("InvoiceId", "Id");
-
-                            b1.HasIndex("ProductId");
-
-                            b1.ToTable("InvoiceItems","Billing");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InvoiceId");
-
-                            b1.HasOne("Billing.Products.Domain.Product", "Product")
-                                .WithMany()
-                                .HasForeignKey("ProductId")
-                                .OnDelete(DeleteBehavior.Restrict)
-                                .IsRequired();
-
-                            b1.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "TotalPrice", b2 =>
-                                {
-                                    b2.Property<int>("InvoiceItemInvoiceId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("InvoiceItemId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int")
-                                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                                    b2.Property<string>("Currency")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<decimal>("Value")
-                                        .HasColumnType("decimal(18,2)");
-
-                                    b2.HasKey("InvoiceItemInvoiceId", "InvoiceItemId");
-
-                                    b2.ToTable("InvoiceItems");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("InvoiceItemInvoiceId", "InvoiceItemId");
-                                });
-
-                            b1.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "UnitPrice", b2 =>
-                                {
-                                    b2.Property<int>("InvoiceItemInvoiceId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("InvoiceItemId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int")
-                                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                                    b2.Property<string>("Currency")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<decimal>("Value")
-                                        .HasColumnType("decimal(18,2)");
-
-                                    b2.HasKey("InvoiceItemInvoiceId", "InvoiceItemId");
-
-                                    b2.ToTable("InvoiceItems");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("InvoiceItemInvoiceId", "InvoiceItemId");
-                                });
-
-                            b1.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "UnitTax", b2 =>
-                                {
-                                    b2.Property<int>("InvoiceItemInvoiceId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("InvoiceItemId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int")
-                                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                                    b2.Property<string>("Currency")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<decimal>("Value")
-                                        .HasColumnType("decimal(18,2)");
-
-                                    b2.HasKey("InvoiceItemInvoiceId", "InvoiceItemId");
-
-                                    b2.ToTable("InvoiceItems");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("InvoiceItemInvoiceId", "InvoiceItemId");
-                                });
-
-                            b1.OwnsOne("Shared.Domain.ValueObjects.QuantityValue", "Quantity", b2 =>
-                                {
-                                    b2.Property<int>("InvoiceItemInvoiceId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("InvoiceItemId")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int")
-                                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                                    b2.Property<string>("UnitMeasurement")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<decimal>("Value")
-                                        .HasColumnType("decimal(18,2)");
-
-                                    b2.HasKey("InvoiceItemInvoiceId", "InvoiceItemId");
-
-                                    b2.ToTable("InvoiceItems");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("InvoiceItemInvoiceId", "InvoiceItemId");
-                                });
-                        });
-
                     b.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "TotalPrice", b1 =>
                         {
                             b1.Property<int>("InvoiceId")
@@ -360,6 +257,104 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("InvoiceId");
+                        });
+                });
+
+            modelBuilder.Entity("Billing.Invoices.Domain.InvoiceItem", b =>
+                {
+                    b.HasOne("Billing.Invoices.Domain.Invoice", null)
+                        .WithMany("Items")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Billing.Products.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "TotalPrice", b1 =>
+                        {
+                            b1.Property<int>("InvoiceItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Currency")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("InvoiceItemId");
+
+                            b1.ToTable("InvoiceItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceItemId");
+                        });
+
+                    b.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "UnitPrice", b1 =>
+                        {
+                            b1.Property<int>("InvoiceItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Currency")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("InvoiceItemId");
+
+                            b1.ToTable("InvoiceItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceItemId");
+                        });
+
+                    b.OwnsOne("Shared.Domain.ValueObjects.MonetaryValue", "UnitTax", b1 =>
+                        {
+                            b1.Property<int>("InvoiceItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Currency")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("InvoiceItemId");
+
+                            b1.ToTable("InvoiceItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceItemId");
+                        });
+
+                    b.OwnsOne("Shared.Domain.ValueObjects.QuantityValue", "Quantity", b1 =>
+                        {
+                            b1.Property<int>("InvoiceItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("UnitMeasurement")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("InvoiceItemId");
+
+                            b1.ToTable("InvoiceItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceItemId");
                         });
                 });
 
@@ -429,7 +424,7 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Billing.Products.Domain.ValueObjects.StockQuantityHistory", b =>
+            modelBuilder.Entity("Billing.Products.Domain.StockQuantityHistory", b =>
                 {
                     b.HasOne("Billing.Products.Domain.Product", null)
                         .WithMany("StockQuantityHistories")

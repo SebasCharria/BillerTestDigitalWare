@@ -12,6 +12,7 @@ namespace Billing.Invoices.Infrastructure.Mappings
         public InvoiceProfile()
         {
             CreateMap<Invoice, InvoiceViewModel>();
+            CreateMap<InvoiceItem, InvoiceItemViewModel>();
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Billing.Products.Domain;
+using Shared.Domain;
 using Shared.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Value;
 
-namespace Billing.Invoices.Domain.ValueObjects
+namespace Billing.Invoices.Domain
 {
-    public class InvoiceItem : ValueObject
+    public class InvoiceItem : Entity
     {
         public string Name { get; private set; }
         public int ProductId { get; private set; }

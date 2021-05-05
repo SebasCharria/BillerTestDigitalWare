@@ -1,5 +1,4 @@
-﻿using Billing.Invoices.Domain.ValueObjects;
-using Shared.Domain;
+﻿using Shared.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;

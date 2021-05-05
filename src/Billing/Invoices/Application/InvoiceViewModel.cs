@@ -1,4 +1,5 @@
-﻿using Billing.Invoices.Domain.ValueObjects;
+﻿using Billing.Invoices.Domain;
+using Billing.Invoices.Domain.ValueObjects;
 using Shared.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,6 @@ namespace Billing.Invoices.Application
         public MonetaryValue TotalReceived { get; set; }
         public int TotalItems { get; set; }
         public MonetaryValue TotalPrice { get; set; }
-        public IEnumerable<InvoiceItem> Items { get; set; }
+        public IEnumerable<InvoiceItemViewModel> Items { get; set; }
     }
 }

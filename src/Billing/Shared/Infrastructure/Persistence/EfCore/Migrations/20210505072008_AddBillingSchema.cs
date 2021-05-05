@@ -115,7 +115,6 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                 schema: "Billing",
                 columns: table => new
                 {
-                    InvoiceId = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
@@ -128,11 +127,12 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                     UnitPrice_Value = table.Column<decimal>(nullable: true),
                     UnitPrice_Currency = table.Column<string>(nullable: true),
                     UnitTax_Value = table.Column<decimal>(nullable: true),
-                    UnitTax_Currency = table.Column<string>(nullable: true)
+                    UnitTax_Currency = table.Column<string>(nullable: true),
+                    InvoiceId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoiceItems", x => new { x.InvoiceId, x.Id });
+                    table.PrimaryKey("PK_InvoiceItems", x => x.Id);
                     table.ForeignKey(
                         name: "FK_InvoiceItems_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
@@ -148,6 +148,12 @@ namespace Billing.Shared.Infrastructure.Persistence.EfCore.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceItems_InvoiceId",
+                schema: "Billing",
+                table: "InvoiceItems",
+                column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_ProductId",

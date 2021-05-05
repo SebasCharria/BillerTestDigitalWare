@@ -1,5 +1,4 @@
 ﻿using Billing.Invoices.Domain;
-using Billing.Invoices.Domain.ValueObjects;
 using Billing.Shared.Infrastructure.Persistence.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Persistence.EfCore;
