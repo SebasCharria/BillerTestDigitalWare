@@ -12,6 +12,7 @@ namespace Billing.Products.Infrastructure.Mappings
         public ProductProfile()
         {
             CreateMap<Product, ProductViewModel>();
+            CreateMap<StockQuantityHistory, StockQuantityHistoryViewModel>();
         }
     }
 }

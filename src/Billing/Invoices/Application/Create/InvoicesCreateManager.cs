@@ -19,20 +19,17 @@ namespace Billing.Invoices.Application.Create
     {
         private readonly IInvoiceRepository repository;
         private readonly IProductRepository productRepository;
-        private readonly ProductsAdjustStockManager adjustStockManager;
         private readonly ICustomerRepository customerRepository;
         private readonly IMapper mapper;
 
         public InvoicesCreateManager(
             IInvoiceRepository repository,
             IProductRepository productRepository,
-            ProductsAdjustStockManager adjustStockManager,
             ICustomerRepository customerRepository,
             IMapper mapper)
         {
             this.repository = repository;
             this.productRepository = productRepository;
-            this.adjustStockManager = adjustStockManager;
             this.customerRepository = customerRepository;
             this.mapper = mapper;
         }
@@ -71,6 +68,7 @@ namespace Billing.Invoices.Application.Create
                 customer: customer);
 
             // se agregan los productos.
+            var productsUpdates = new List<Product>();
             foreach (var productInput in productInputs)
             {
                 var product = productRepository.GetById(productInput.ProductId);
@@ -91,9 +89,12 @@ namespace Billing.Invoices.Application.Create
                 product.AdjustStock(
                     new QuantityValue(productInput.Quantity.Value * (-1), productInput.Quantity.UnitMeasurement),
                     "Sale");
+
+                productsUpdates.Add(product);
             }
 
             repository.Insert(invoice);
+            productRepository.Update(productsUpdates);
 
             return mapper.Map<InvoiceViewModel>(invoice);
         }

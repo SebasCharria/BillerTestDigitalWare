@@ -1,4 +1,4 @@
-﻿using Billing.Products.Domain.ValueObjects;
+﻿using Billing.Products.Domain;
 using Billing.Shared.Infrastructure.Persistence.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

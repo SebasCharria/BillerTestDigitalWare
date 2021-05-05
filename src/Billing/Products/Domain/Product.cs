@@ -1,5 +1,4 @@
-﻿using Billing.Products.Domain.ValueObjects;
-using Shared.Domain;
+﻿using Shared.Domain;
 using Shared.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;

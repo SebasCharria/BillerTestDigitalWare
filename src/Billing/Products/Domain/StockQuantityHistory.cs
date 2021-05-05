@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using Value;
 
-namespace Billing.Products.Domain.ValueObjects
+namespace Billing.Products.Domain
 {
-    public class StockQuantityHistory: Entity
+    public class StockQuantityHistory : Entity
     {
         public DateTime Date { get; private set; }
         public string Message { get; private set; }

@@ -1,5 +1,4 @@
-﻿using Billing.Products.Domain.ValueObjects;
-using Shared.Domain.ValueObjects;
+﻿using Shared.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +15,6 @@ namespace Billing.Products.Application
         public QuantityValue StockQuantity { get; set; }
         public MonetaryValue Tax { get; set; }
         public string TaxDescription { get; set; }
+        public List<StockQuantityHistoryViewModel> StockQuantityHistories { get; set; }
     }
 }
