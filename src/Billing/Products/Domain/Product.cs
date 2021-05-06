@@ -1,4 +1,5 @@
-﻿using Shared.Domain;
+﻿using Billing.Products.Domain.Exceptions;
+using Shared.Domain;
 using Shared.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace Billing.Products.Domain
 {
     public class Product: Entity, IAggregateRoot
     {
+        public const int MIN_STOCK_ALLOWED = 5;
+
         public string Description { get; private set; }
         public string Name { get; private set; }
         public string FriendlyName { get; private set; }
@@ -54,6 +57,11 @@ namespace Billing.Products.Domain
             var newQuantity = new QuantityValue(
                 value: StockQuantity.Value + quantity.Value,
                 unitMeasurement: quantity.UnitMeasurement);
+
+            if (newQuantity.Value < MIN_STOCK_ALLOWED)
+            {
+                throw new OutStock(Id, Name);
+            }
 
             StockQuantity = newQuantity;
 

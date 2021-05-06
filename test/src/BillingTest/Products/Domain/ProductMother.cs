@@ -48,13 +48,13 @@ namespace BillingTest.Products.Domain
                 taxDescription: "IVA 19%");
 
             product.AdjustStock(
-                new QuantityValue(100, "UM"), "Initial Stock");
+                new QuantityValue(1000, "UM"), "Initial Stock");
 
             return product;
 
         }
 
-        public static Product TaladroProductWithoutStock()
+        public static Product TaladroProductWithStock()
         {
             var product = new Product(
                description: "Este es un taladro",
@@ -65,7 +65,40 @@ namespace BillingTest.Products.Domain
                taxDescription: "IVA 19%");
 
             product.AdjustStock(
-                new QuantityValue(0, "UM"), "Initial Stock");
+                new QuantityValue(1000, "UM"), "Initial Stock");
+
+            return product;
+        }
+
+        public static Product TaladroProductWitMinStock()
+        {
+            var minStockAllowed = 5; // Product.MIN_STOCK_ALLOWED
+            var product = new Product(
+               description: "Este es un taladro",
+               name: "Taladro",
+               friendlyName: "Taladro",
+               price: new MonetaryValue(50000, "CO"),
+               tax: new MonetaryValue(9500, "CO"),
+               taxDescription: "IVA 19%");
+
+            product.AdjustStock(
+                new QuantityValue(minStockAllowed, "UM"), "Initial Stock");
+
+            return product;
+        }
+
+        public static Product TaladroProductWith5Stock()
+        {
+            var product = new Product(
+               description: "Este es un taladro",
+               name: "Taladro",
+               friendlyName: "Taladro",
+               price: new MonetaryValue(50000, "CO"),
+               tax: new MonetaryValue(9500, "CO"),
+               taxDescription: "IVA 19%");
+
+            product.AdjustStock(
+                new QuantityValue(5, "UM"), "Initial Stock");
 
             return product;
         }

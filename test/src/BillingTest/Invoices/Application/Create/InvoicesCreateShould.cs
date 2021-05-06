@@ -65,7 +65,7 @@ namespace BillingTest.Invoices.Application.Create
 
             productRepository
                 .Setup(pr => pr.GetById(It.IsAny<int>()))
-                .Returns(ProductMother.Random())
+                .Returns(ProductMother.StandardProductWith1000Stock())
                 .Verifiable();
 
             // act
@@ -192,6 +192,36 @@ namespace BillingTest.Invoices.Application.Create
 
             // act - val
             Assert.Throws<ProductNotFound>(() => createManager.Create(
+                date: DateTime.Now,
+                expirationDate: DateTime.Now.AddDays(2),
+                totalReceived: new MonetaryValue(100, "CO"),
+                customerId: 1,
+                productInputs: products));
+        }
+
+        [Fact]
+        public void throw_outstock_invoice()
+        {
+            // setp
+            customerRepository
+                .Setup(cr => cr.GetById(1))
+                .Returns(CustomerMother.Random());
+
+            productRepository
+                .Setup(pr => pr.GetById(1))
+                .Returns(ProductMother.TaladroProductWitMinStock());
+
+            var products = new List<ProductInputModel>()
+            {
+                new ProductInputModel()
+                {
+                    ProductId = 1,
+                    Quantity = new QuantityValue(10, "UM"),
+                }
+            };
+
+            // act - val
+            Assert.Throws<OutStock>(() => createManager.Create(
                 date: DateTime.Now,
                 expirationDate: DateTime.Now.AddDays(2),
                 totalReceived: new MonetaryValue(100, "CO"),

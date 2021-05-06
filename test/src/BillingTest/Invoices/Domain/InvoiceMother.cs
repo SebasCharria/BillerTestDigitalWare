@@ -29,7 +29,7 @@ namespace BillingTest.Invoices.Domain
                 unitTax: product.Tax,
                 quantity: new QuantityValue(2, "UM"));
 
-            product = ProductMother.TaladroProductWithoutStock();
+            product = ProductMother.TaladroProductWithStock();
             invoice.AddItem(
                 name: product.Name,
                 productId: product.Id,
